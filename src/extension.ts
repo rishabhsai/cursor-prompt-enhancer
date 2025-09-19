@@ -40,18 +40,46 @@ export function activate(context: vscode.ExtensionContext) {
       const selection = editor.selection;
       let text = editor.document.getText(selection);
 
+      // Handle no-selection cases (e.g., Cursor Chat input fields are not editors)
       if (!text || text.trim().length < 3) {
-        // If no selection, ask user to input the prompt
-        const input = await vscode.window.showInputBox({
-          prompt: 'Enter the prompt to enhance',
-          placeHolder: 'Describe your goal/problem…',
-          ignoreFocusOut: true,
-          validateInput: (v) => (v.trim().length < 3 ? 'Please enter more detail' : undefined),
-        });
-        if (!input) {
-          return;
+        if (vscode.workspace.getConfiguration('cursorPromptEnhancer').get('askInputSourceWhenNoSelection') as boolean) {
+          const clip = await vscode.env.clipboard.readText();
+          const clipPreview = clip ? `${clip.slice(0, 60)}${clip.length > 60 ? '…' : ''}` : '(clipboard empty)';
+          const pick = await vscode.window.showQuickPick(
+            [
+              { label: 'Use Clipboard', description: clipPreview, value: 'clipboard' },
+              { label: 'Type/Paste Input…', description: 'Open input box to paste or type', value: 'input' },
+              { label: 'Cancel', value: 'cancel' },
+            ],
+            { placeHolder: 'No selection found. Choose input source' }
+          );
+          if (!pick || pick.value === 'cancel') return;
+          if (pick.value === 'clipboard') {
+            if (!clip || clip.trim().length < 3) {
+              vscode.window.showWarningMessage('Clipboard is empty or too short.');
+              return;
+            }
+            text = clip;
+          } else {
+            const input = await vscode.window.showInputBox({
+              prompt: 'Enter the prompt to enhance',
+              placeHolder: 'Describe your goal/problem…',
+              ignoreFocusOut: true,
+              validateInput: (v) => (v.trim().length < 3 ? 'Please enter more detail' : undefined),
+            });
+            if (!input) return;
+            text = input;
+          }
+        } else {
+          const input = await vscode.window.showInputBox({
+            prompt: 'Enter the prompt to enhance',
+            placeHolder: 'Describe your goal/problem…',
+            ignoreFocusOut: true,
+            validateInput: (v) => (v.trim().length < 3 ? 'Please enter more detail' : undefined),
+          });
+          if (!input) return;
+          text = input;
         }
-        text = input;
       }
 
       const title = cfg.provider === 'openai' ? 'Enhancing prompt via OpenAI…' : 'Enhancing prompt…';
@@ -86,8 +114,31 @@ export function activate(context: vscode.ExtensionContext) {
         }
       );
 
-      await applyEnhancedText(editor, enhanced, cfg.defaultAction);
-      if (cfg.copyToClipboard) {
+      // Decide final action: optional post-action picker
+      let finalAction: 'insertBelow' | 'replaceSelection' | 'openNew' | 'none' = cfg.defaultAction;
+      let finalCopy = cfg.copyToClipboard;
+      const ask = vscode.workspace.getConfiguration('cursorPromptEnhancer').get('postActionPrompt') as boolean;
+      if (ask) {
+        const choice = await vscode.window.showQuickPick(
+          [
+            { label: 'Copy to Clipboard', value: 'copy' },
+            { label: 'Insert Below', value: 'insertBelow' },
+            { label: 'Replace Selection', value: 'replaceSelection' },
+            { label: 'Open New Document', value: 'openNew' },
+          ],
+          { placeHolder: 'Apply enhanced prompt as…' }
+        );
+        if (!choice) return;
+        if (choice.value === 'copy') {
+          finalAction = 'none';
+          finalCopy = true;
+        } else {
+          finalAction = choice.value as any;
+        }
+      }
+
+      await applyEnhancedText(editor, enhanced, finalAction);
+      if (finalCopy) {
         await vscode.env.clipboard.writeText(enhanced);
         vscode.window.showInformationMessage('Enhanced prompt copied to clipboard');
       }
