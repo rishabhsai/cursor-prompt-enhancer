@@ -77,11 +77,6 @@
           "default": true,
           "markdownDescription": "After generation, ask how to apply the result (Copy, Insert Below, Replace Selection, Open New)."
         },
-        "cursorPromptEnhancer.askInputSourceWhenNoSelection": {
-          "type": "boolean",
-          "default": true,
-          "markdownDescription": "When there is no editor selection, prompt to use Clipboard or type input before enhancing. Helpful for Cursor Chat selections."
-        },
         "cursorPromptEnhancer.systemPrompt": {
           "type": "string",
           "markdownDescription": "System prompt used for the OpenAI provider. Defaults to a terse, reliable prompt rewriter for software builders.",

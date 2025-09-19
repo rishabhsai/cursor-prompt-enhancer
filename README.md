@@ -26,13 +26,16 @@ One click to rewrite messy intent into a clean prompt your AI coding assistant c
      - **Mac:** `Cmd+Shift+Alt+E`  
      - **Win/Linux:** `Ctrl+Shift+Alt+E`
 
+No Selection Behavior
+- If nothing is selected, you’ll be taken directly to an input box to paste/type your prompt. No extra clicks.
+
 ---
 
-### ** Before **
-(https://i.imgur.com/x7iviyD.png)  
+### **Before**
+![Before](https://i.imgur.com/x7iviyD.png)
 
-### ** After **
-(https://i.imgur.com/ocs3sUZ.png)  
+### **After**
+![After](https://i.imgur.com/ocs3sUZ.png)
 
 
 ---
@@ -43,6 +46,9 @@ One click to rewrite messy intent into a clean prompt your AI coding assistant c
 | --- | --- | --- |
 | `cursorPromptEnhancer.provider` | `local`, `openai` | Backend to use |
 | `cursorPromptEnhancer.defaultAction` | `insertBelow`, `replaceSelection`, `openNew`, `insertBelowAndCopy`, `replaceSelectionAndCopy`, `openNewAndCopy`, `copyOnly` | Default insertion behavior |
+| `cursorPromptEnhancer.postActionPrompt` | true/false | After generation, show a picker to apply the result: Copy, Insert Below, Replace Selection, or Open New. Avoids accidental replacement when invoked from the Command Palette. |
+
+<add image of post-action picker>
 | `cursorPromptEnhancer.systemPrompt` | string | Custom system prompt (OpenAI mode) |
 | `cursorPromptEnhancer.tone` | `concise`, `balanced`, `detailed` | Tone for local enhancer |
 | `cursorPromptEnhancer.openai.apiBase` | URL | API base for OpenAI-compatible services |

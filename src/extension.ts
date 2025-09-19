@@ -40,46 +40,16 @@ export function activate(context: vscode.ExtensionContext) {
       const selection = editor.selection;
       let text = editor.document.getText(selection);
 
-      // Handle no-selection cases (e.g., Cursor Chat input fields are not editors)
+      // No selection: go straight to input box (no extra choice UI)
       if (!text || text.trim().length < 3) {
-        if (vscode.workspace.getConfiguration('cursorPromptEnhancer').get('askInputSourceWhenNoSelection') as boolean) {
-          const clip = await vscode.env.clipboard.readText();
-          const clipPreview = clip ? `${clip.slice(0, 60)}${clip.length > 60 ? '…' : ''}` : '(clipboard empty)';
-          const pick = await vscode.window.showQuickPick(
-            [
-              { label: 'Use Clipboard', description: clipPreview, value: 'clipboard' },
-              { label: 'Type/Paste Input…', description: 'Open input box to paste or type', value: 'input' },
-              { label: 'Cancel', value: 'cancel' },
-            ],
-            { placeHolder: 'No selection found. Choose input source' }
-          );
-          if (!pick || pick.value === 'cancel') return;
-          if (pick.value === 'clipboard') {
-            if (!clip || clip.trim().length < 3) {
-              vscode.window.showWarningMessage('Clipboard is empty or too short.');
-              return;
-            }
-            text = clip;
-          } else {
-            const input = await vscode.window.showInputBox({
-              prompt: 'Enter the prompt to enhance',
-              placeHolder: 'Describe your goal/problem…',
-              ignoreFocusOut: true,
-              validateInput: (v) => (v.trim().length < 3 ? 'Please enter more detail' : undefined),
-            });
-            if (!input) return;
-            text = input;
-          }
-        } else {
-          const input = await vscode.window.showInputBox({
-            prompt: 'Enter the prompt to enhance',
-            placeHolder: 'Describe your goal/problem…',
-            ignoreFocusOut: true,
-            validateInput: (v) => (v.trim().length < 3 ? 'Please enter more detail' : undefined),
-          });
-          if (!input) return;
-          text = input;
-        }
+        const input = await vscode.window.showInputBox({
+          prompt: 'Enter the prompt to enhance',
+          placeHolder: 'Paste or type what you want to enhance…',
+          ignoreFocusOut: true,
+          validateInput: (v) => (v.trim().length < 3 ? 'Please enter more detail' : undefined),
+        });
+        if (!input) return;
+        text = input;
       }
 
       const title = cfg.provider === 'openai' ? 'Enhancing prompt via OpenAI…' : 'Enhancing prompt…';
