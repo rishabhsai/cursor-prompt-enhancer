@@ -1,9 +1,9 @@
 {
-  "name": "cursor-prompt-enhancer",
-  "displayName": "Cursor Prompt Enhancer",
-  "description": "One-click enhance your prompts like v0's Prompt Enhancer.",
-  "version": "0.0.1",
-  "publisher": "localdev",
+  "name": "cursor-prompt-enhancer-v2",
+  "displayName": "Cursor Prompt Enhancer v2",
+  "description": "Instant One-click enhanced prompts.",
+  "version": "2.0.1",
+  "publisher": "rishabhsai",
   "license": "MIT",
   "icon": "media/icon.png",
   "repository": {
@@ -18,7 +18,10 @@
     "aiml",
     "markdown",
     "streaming",
-    "prompt-engineering"
+    "prompt-engineering",
+    "ai-prompt-enhancer",
+    "prompt-enhancer",
+    "vibecoding"
   ],
   "engines": {
     "vscode": "^1.84.0"
