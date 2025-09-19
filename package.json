@@ -1,0 +1,155 @@
+{
+  "name": "cursor-prompt-enhancer",
+  "displayName": "Cursor Prompt Enhancer",
+  "description": "One-click enhance your prompts like v0's Prompt Enhancer.",
+  "version": "0.0.1",
+  "publisher": "localdev",
+  "icon": "media/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rishabhsai/cursor-prompt-enhancer.git"
+  },
+  "keywords": [
+    "cursor",
+    "prompt",
+    "enhance",
+    "openai",
+    "aiml",
+    "markdown",
+    "streaming",
+    "prompt-engineering"
+  ],
+  "engines": {
+    "vscode": "^1.84.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:cursorPromptEnhancer.enhanceSelection",
+    "onCommand:cursorPromptEnhancer.setOpenAIApiKey",
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "cursorPromptEnhancer.enhanceSelection",
+        "title": "Enhance Prompt",
+        "category": "Prompt",
+        "icon": "$(wand)"
+      },
+      {
+        "command": "cursorPromptEnhancer.setOpenAIApiKey",
+        "title": "Set OpenAI API Key",
+        "category": "Prompt"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "cursorPromptEnhancer.enhanceSelection",
+          "group": "navigation@1",
+          "when": "editorTextFocus",
+          "alt": "cursorPromptEnhancer.enhanceSelection",
+          "icon": "$(wand)"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "cursorPromptEnhancer.enhanceSelection",
+          "when": "editorTextFocus",
+          "group": "navigation@1",
+          "alt": "cursorPromptEnhancer.enhanceSelection",
+          "icon": "$(wand)"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Cursor Prompt Enhancer",
+      "properties": {
+        "cursorPromptEnhancer.systemPrompt": {
+          "type": "string",
+          "markdownDescription": "System prompt used for the OpenAI provider. Defaults to a terse, reliable prompt rewriter for software builders.",
+          "default": "You are PromptEnhancer, a fast, terse, reliable prompt rewriter for software builders using Cursor. Transform a rough app idea into a clear, actionable prompt that an AI coding assistant can execute immediately.\n\n## Output (markdown only):\n# Enhanced Prompt\n<concise rewritten prompt that preserves all original intent>\n- Always keep the current tech stack in mind\n- Follow the existing styling guidelines and conventions\n\n## Steps (High-Level Plan)\n1. <step>\n2. <step>\n3. <step>\n\n## Rules:\n- Be concise and direct; prefer bullets and short sentences.\n- Preserve all user intent and details; do not add or invent features, APIs, filenames, or requirements.\n- Remove filler, vague language, and redundancy; tighten wording and normalize terminology.\n- If the idea is simple or the user requested “rewrite only,” you may omit the **Steps** section.\n- If the idea is ambiguous or you are unsure, ask 1–3 clarifying questions instead of guessing; in that case, output only the questions.\n- Output only the sections specified above—no extra commentary or explanations.\n- Keep the enhanced prompt brief (≈150–200 words) unless the user asks for more.\n\n## Example\n\n**User input:**  \n\"i wanna make like a dark mode note app that has tags and syncs to the cloud but also like looks clean in tailwind\"\n\n**Enhanced output:**  \n# Enhanced Prompt  \nBuild a dark-mode note-taking app with:  \n- Tagging system for easy organization  \n- Cloud sync to keep notes available across devices  \n- Clean UI styled with Tailwind CSS  \n- Always keep the current tech stack in mind  \n- Follow the existing styling guidelines and conventions  \n\n## Steps (High-Level Plan)  \n1. Set up project with existing stack and Tailwind styling  \n2. Implement note creation, editing, and tagging  \n3. Add cloud sync functionality  \n4. Polish UI to match existing style guidelines"
+        },
+        "cursorPromptEnhancer.provider": {
+          "type": "string",
+          "enum": ["local", "openai"],
+          "default": "local",
+          "description": "Which enhancer to use: built-in local rules or OpenAI API."
+        },
+        "cursorPromptEnhancer.defaultAction": {
+          "type": "string",
+          "enum": [
+            "insertBelow",
+            "replaceSelection",
+            "openNew",
+            "insertBelowAndCopy",
+            "replaceSelectionAndCopy",
+            "openNewAndCopy",
+            "copyOnly"
+          ],
+          "default": "insertBelowAndCopy",
+          "markdownDescription": "What to do with the enhanced prompt. Variants with 'AndCopy' also copy to clipboard. Choose 'copyOnly' to only copy without inserting."
+        },
+        "cursorPromptEnhancer.tone": {
+          "type": "string",
+          "enum": ["concise", "balanced", "detailed"],
+          "default": "balanced",
+          "description": "Tuning for how verbose the enhanced prompt should be."
+        },
+        "cursorPromptEnhancer.openai.model": {
+          "type": "string",
+          "default": "gpt-4o-mini",
+          "description": "OpenAI model to use when provider=openai."
+        },
+        "cursorPromptEnhancer.openai.apiBase": {
+          "type": "string",
+          "default": "https://api.openai.com/v1",
+          "description": "Base URL for OpenAI-compatible API (e.g., https://api.aimlapi.com/v1)."
+        },
+        "cursorPromptEnhancer.openai.streaming": {
+          "type": "boolean",
+          "default": false,
+          "description": "Stream tokens into a preview document while generating."
+        },
+        "cursorPromptEnhancer.openai.useTemperature": {
+          "type": "boolean",
+          "default": false,
+          "description": "Include a temperature value when calling the API. Disable for models that only allow the default."
+        },
+        "cursorPromptEnhancer.openai.temperature": {
+          "type": "number",
+          "markdownDescription": "Optional. If unset, temperature is omitted. Some models (e.g., gpt-5-mini) only allow the default and will error otherwise.",
+          "default": 1
+        },
+        "cursorPromptEnhancer.openai.apiKey": {
+          "type": "string",
+          "markdownDescription": "Optional fallback to read an API key from settings (stored in plain text). Prefer using the 'Set OpenAI API Key' command which stores it securely in the Secrets vault.",
+          "default": ""
+        }
+      }
+    }
+    ,
+    "keybindings": [
+      {
+        "command": "cursorPromptEnhancer.enhanceSelection",
+        "key": "ctrl+shift+alt+e",
+        "mac": "cmd+shift+alt+e",
+        "when": "editorTextFocus && !inQuickOpen && !terminalFocus && !inputFocus"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "^18.19.0",
+    "@types/vscode": "^1.84.0",
+    "typescript": "^5.4.0"
+  },
+  "dependencies": {}
+}
