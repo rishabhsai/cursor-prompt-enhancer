@@ -4,6 +4,7 @@
   "description": "One-click enhance your prompts like v0's Prompt Enhancer.",
   "version": "0.0.1",
   "publisher": "localdev",
+  "license": "MIT",
   "icon": "media/icon.png",
   "repository": {
     "type": "git",
