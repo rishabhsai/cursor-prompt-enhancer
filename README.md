@@ -1,37 +1,71 @@
-**Cursor Prompt Enhancer**
+Cursor Prompt Enhancer
 
-- One-click button to enhance any prompt like v0’s “Prompt Enhancer”.
-- Works locally (no network) or via OpenAI if configured.
+Turn rough ideas into crisp, actionable prompts — instantly. One click to rewrite messy intent into a clean prompt your AI coding assistant can execute.
 
-**Features**
-- Editor title button: click the wand to enhance the current selection.
-- Command palette: “Enhance Prompt” to enhance selection or pasted text.
-- Local enhancer: deterministic template that structures your intent clearly.
-- OpenAI mode: optional, for higher quality rewrites.
+Note: To use OpenAI/AIML, set the provider to `openai` and paste your API key in Settings (search “Cursor Prompt Enhancer”) or run “Prompt: Set OpenAI API Key”.
 
-**Usage**
-- Select the prompt text in an editor and run `Prompt: Enhance Prompt` (or click the wand in the editor title).
-- If nothing is selected, you’ll be asked to paste/type your prompt.
-- By default, the enhanced prompt opens in a new tab. Configure behavior in settings.
+Highlights
+- One‑click Enhance in the editor title, context menu, and status bar.
+- Super fast: optional streaming preview; minimal, focused system prompt.
+- Local enhancer (no network) or OpenAI‑compatible API (AIML, OpenAI, etc.).
+- Smart defaults: replace selection and copy to clipboard in one go.
 
-**Settings**
-- `cursorPromptEnhancer.provider`: `local` (default) or `openai`.
-- `cursorPromptEnhancer.defaultAction`: `insertBelow`, `replaceSelection`, or `openNew`.
-- `cursorPromptEnhancer.tone`: `concise`, `balanced`, or `detailed`.
-- `cursorPromptEnhancer.openai.model`: model name (default `gpt-4o-mini`).
-- `cursorPromptEnhancer.openai.apiKey`: optional plaintext key; prefer the secret vault.
+Screenshots (placeholders)
+- <add image of editor title wand + status bar>
+- <add image of being able to right‑click>
+- <add image of streaming preview>
 
-**OpenAI Setup (optional)**
-1. Run command `Prompt: Set OpenAI API Key` to save your key in the VS Code/Cursor Secrets vault.
-2. Set `cursorPromptEnhancer.provider` to `openai`.
-3. Optionally adjust `cursorPromptEnhancer.openai.model`.
+Quick Start
+1) Install the extension (VSIX or Marketplace).
+2) Optional: Open Settings → search “Cursor Prompt Enhancer” → set Provider to `openai` and paste your key, or run “Prompt: Set OpenAI API Key”.
+3) Select text and run “Enhance Prompt” via:
+   - Right‑click context menu
+   - Editor title wand
+   - Status bar “Enhance”
+   - Keyboard shortcut: Cmd+Shift+Alt+E (Mac) / Ctrl+Shift+Alt+E (Win/Linux)
 
-**Development**
+What it does
+- Rewrites your selection into a terse, high‑signal “Enhanced Prompt” in Markdown.
+- Applies your Default Action (insert, replace, open new, or just copy).
+- Copies to clipboard when you pick an “…AndCopy” action or “Just Copy”.
+
+Default Actions
+- `insertBelow`
+- `replaceSelection`
+- `openNew`
+- `insertBelowAndCopy`
+- `replaceSelectionAndCopy`
+- `openNewAndCopy`
+- `copyOnly` (Just Copy — copies to clipboard and shows a toast)
+
+OpenAI / AIML Setup
+- Provider: `openai`
+- API Base: `https://api.openai.com/v1` (OpenAI) or `https://api.aimlapi.com/v1` (AIML)
+- Model: e.g., `gpt-5-mini` (AIML) or `gpt-4o-mini`
+- Key: set in Settings (search “OpenAI API Key”) or run “Prompt: Set OpenAI API Key”
+
+Settings
+- `cursorPromptEnhancer.provider` — `local` or `openai`
+- `cursorPromptEnhancer.defaultAction` — one of the actions above (includes `copyOnly`)
+- `cursorPromptEnhancer.systemPrompt` — editable system prompt used in OpenAI mode
+- `cursorPromptEnhancer.tone` — `concise` | `balanced` | `detailed` (used by local enhancer)
+- `cursorPromptEnhancer.openai.apiBase` — API base URL for OpenAI‑compatible services
+- `cursorPromptEnhancer.openai.model` — model name
+- `cursorPromptEnhancer.openai.streaming` — stream to a live preview (default: off)
+- `cursorPromptEnhancer.openai.useTemperature` — include `temperature` parameter
+- `cursorPromptEnhancer.openai.temperature` — value to use when `useTemperature` is on
+
+Performance Tips
+- Keep streaming OFF for clean insertion; turn ON to see tokens appear sooner.
+- Use `replaceSelectionAndCopy` for the fastest workflow.
+- Keep your selection focused — smaller inputs produce faster, tighter outputs.
+
+Privacy
+- Local mode never leaves your machine.
+- OpenAI mode only sends your selected text and prompt to the configured API base.
+
+Development
 - Install deps: `npm install`
 - Build: `npm run compile`
-- Launch Extension: F5 in VS Code/Cursor to open an Extension Development Host.
-
-**Notes**
-- Local enhancer adds structured sections: System, Goal, User Input, Requirements, Output Format.
-- Undo works when replacing/inserting text.
-
+- Launch Extension: F5 to open an Extension Development Host
+- Keybinding is defined in `package.json` (Cmd/Ctrl+Shift+Alt+E)
