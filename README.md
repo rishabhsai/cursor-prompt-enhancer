@@ -28,10 +28,12 @@ One click to rewrite messy intent into a clean prompt your AI coding assistant c
 
 ---
 
-![Before](https://i.imgur.com/x7iviyD.png)  
-*BEFORE*
-![After](https://i.imgur.com/ocs3sUZ.png)  
-*AFTER*
+### ** Before **
+(https://i.imgur.com/x7iviyD.png)  
+
+### ** After **
+(https://i.imgur.com/ocs3sUZ.png)  
+
 
 ---
 
