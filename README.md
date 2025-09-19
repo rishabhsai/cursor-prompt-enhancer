@@ -32,7 +32,7 @@ No Selection Behavior
 ---
 
 ### **Before**
-![Before](https://i.imgur.com/x7iviyD.png)
+![Before](https://i.imgur.com/6F6vfkj.png)
 
 ### **After**
 ![After](https://i.imgur.com/ocs3sUZ.png)
