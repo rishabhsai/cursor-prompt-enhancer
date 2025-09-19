@@ -75,18 +75,21 @@
         "cursorPromptEnhancer.postActionPrompt": {
           "type": "boolean",
           "default": true,
-          "markdownDescription": "After generation, ask how to apply the result (Copy, Insert Below, Replace Selection, Open New)."
+          "markdownDescription": "After generation, ask how to apply the result (Copy, Insert Below, Replace Selection, Open New).",
+          "order": 4
         },
         "cursorPromptEnhancer.systemPrompt": {
           "type": "string",
           "markdownDescription": "System prompt used for the OpenAI provider. Defaults to a terse, reliable prompt rewriter for software builders.",
-          "default": "You are PromptEnhancer, a fast, terse, reliable prompt rewriter for software builders using Cursor. Transform a rough app idea into a clear, actionable prompt that an AI coding assistant can execute immediately.\n\n## Output (markdown only):\n# Enhanced Prompt\n<concise rewritten prompt that preserves all original intent>\n- Always keep the current tech stack in mind\n- Follow the existing styling guidelines and conventions\n\n## Steps (High-Level Plan)\n1. <step>\n2. <step>\n3. <step>\n\n## Rules:\n- Be concise and direct; prefer bullets and short sentences.\n- Preserve all user intent and details; do not add or invent features, APIs, filenames, or requirements.\n- Remove filler, vague language, and redundancy; tighten wording and normalize terminology.\n- If the idea is simple or the user requested “rewrite only,” you may omit the **Steps** section.\n- If the idea is ambiguous or you are unsure, ask 1–3 clarifying questions instead of guessing; in that case, output only the questions.\n- Output only the sections specified above—no extra commentary or explanations.\n- Keep the enhanced prompt brief (≈150–200 words) unless the user asks for more.\n\n## Example\n\n**User input:**  \n\"i wanna make like a dark mode note app that has tags and syncs to the cloud but also like looks clean in tailwind\"\n\n**Enhanced output:**  \n# Enhanced Prompt  \nBuild a dark-mode note-taking app with:  \n- Tagging system for easy organization  \n- Cloud sync to keep notes available across devices  \n- Clean UI styled with Tailwind CSS  \n- Always keep the current tech stack in mind  \n- Follow the existing styling guidelines and conventions  \n\n## Steps (High-Level Plan)  \n1. Set up project with existing stack and Tailwind styling  \n2. Implement note creation, editing, and tagging  \n3. Add cloud sync functionality  \n4. Polish UI to match existing style guidelines"
+          "default": "You are PromptEnhancer, a fast, terse, reliable prompt rewriter for software builders using Cursor. Transform a rough app idea into a clear, actionable prompt that an AI coding assistant can execute immediately.\n\n## Output (markdown only):\n# Enhanced Prompt\n<concise rewritten prompt that preserves all original intent>\n- Always keep the current tech stack in mind\n- Follow the existing styling guidelines and conventions\n\n## Steps (High-Level Plan)\n1. <step>\n2. <step>\n3. <step>\n\n## Rules:\n- Be concise and direct; prefer bullets and short sentences.\n- Preserve all user intent and details; do not add or invent features, APIs, filenames, or requirements.\n- Remove filler, vague language, and redundancy; tighten wording and normalize terminology.\n- If the idea is simple or the user requested “rewrite only,” you may omit the **Steps** section.\n- If the idea is ambiguous or you are unsure, ask 1–3 clarifying questions instead of guessing; in that case, output only the questions.\n- Output only the sections specified above—no extra commentary or explanations.\n- Keep the enhanced prompt brief (≈150–200 words) unless the user asks for more.\n\n## Example\n\n**User input:**  \n\"i wanna make like a dark mode note app that has tags and syncs to the cloud but also like looks clean in tailwind\"\n\n**Enhanced output:**  \n# Enhanced Prompt  \nBuild a dark-mode note-taking app with:  \n- Tagging system for easy organization  \n- Cloud sync to keep notes available across devices  \n- Clean UI styled with Tailwind CSS  \n- Always keep the current tech stack in mind  \n- Follow the existing styling guidelines and conventions  \n\n## Steps (High-Level Plan)  \n1. Set up project with existing stack and Tailwind styling  \n2. Implement note creation, editing, and tagging  \n3. Add cloud sync functionality  \n4. Polish UI to match existing style guidelines",
+          "order": 90
         },
         "cursorPromptEnhancer.provider": {
           "type": "string",
           "enum": ["local", "openai"],
           "default": "local",
-          "description": "Which enhancer to use: built-in local rules or OpenAI API."
+          "description": "Which enhancer to use: built-in local rules or OpenAI API.",
+          "order": 1
         },
         "cursorPromptEnhancer.defaultAction": {
           "type": "string",
@@ -100,43 +103,51 @@
             "copyOnly"
           ],
           "default": "insertBelowAndCopy",
-          "markdownDescription": "What to do with the enhanced prompt. Variants with 'AndCopy' also copy to clipboard. Choose 'copyOnly' to only copy without inserting."
+          "markdownDescription": "What to do with the enhanced prompt. Variants with 'AndCopy' also copy to clipboard. Choose 'copyOnly' to only copy without inserting.",
+          "order": 5
         },
         "cursorPromptEnhancer.tone": {
           "type": "string",
           "enum": ["concise", "balanced", "detailed"],
           "default": "balanced",
-          "description": "Tuning for how verbose the enhanced prompt should be."
+          "description": "Tuning for how verbose the enhanced prompt should be.",
+          "order": 95
         },
         "cursorPromptEnhancer.openai.model": {
           "type": "string",
           "default": "gpt-4o-mini",
-          "description": "OpenAI model to use when provider=openai."
+          "description": "OpenAI model to use when provider=openai.",
+          "order": 3
         },
         "cursorPromptEnhancer.openai.apiBase": {
           "type": "string",
           "default": "https://api.openai.com/v1",
-          "description": "Base URL for OpenAI-compatible API (e.g., https://api.aimlapi.com/v1)."
-        },
-        "cursorPromptEnhancer.openai.streaming": {
-          "type": "boolean",
-          "default": false,
-          "description": "Stream tokens into a preview document while generating."
-        },
-        "cursorPromptEnhancer.openai.useTemperature": {
-          "type": "boolean",
-          "default": false,
-          "description": "Include a temperature value when calling the API. Disable for models that only allow the default."
-        },
-        "cursorPromptEnhancer.openai.temperature": {
-          "type": "number",
-          "markdownDescription": "Optional. If unset, temperature is omitted. Some models (e.g., gpt-5-mini) only allow the default and will error otherwise.",
-          "default": 1
+          "description": "Base URL for OpenAI-compatible API (e.g., https://api.aimlapi.com/v1).",
+          "order": 6
         },
         "cursorPromptEnhancer.openai.apiKey": {
           "type": "string",
           "markdownDescription": "Optional fallback to read an API key from settings (stored in plain text). Prefer using the 'Set OpenAI API Key' command which stores it securely in the Secrets vault.",
-          "default": ""
+          "default": "",
+          "order": 2
+        },
+        "cursorPromptEnhancer.openai.streaming": {
+          "type": "boolean",
+          "default": false,
+          "description": "Stream tokens into a preview document while generating.",
+          "order": 7
+        },
+        "cursorPromptEnhancer.openai.useTemperature": {
+          "type": "boolean",
+          "default": false,
+          "description": "Include a temperature value when calling the API. Disable for models that only allow the default.",
+          "order": 110
+        },
+        "cursorPromptEnhancer.openai.temperature": {
+          "type": "number",
+          "markdownDescription": "Optional. If unset, temperature is omitted. Some models (e.g., gpt-5-mini) only allow the default and will error otherwise.",
+          "default": 1,
+          "order": 111
         }
       }
     }
