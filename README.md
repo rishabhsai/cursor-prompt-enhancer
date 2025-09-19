@@ -47,8 +47,6 @@ No Selection Behavior
 | `cursorPromptEnhancer.provider` | `local`, `openai` | Backend to use |
 | `cursorPromptEnhancer.defaultAction` | `insertBelow`, `replaceSelection`, `openNew`, `insertBelowAndCopy`, `replaceSelectionAndCopy`, `openNewAndCopy`, `copyOnly` | Default insertion behavior |
 | `cursorPromptEnhancer.postActionPrompt` | true/false | After generation, show a picker to apply the result: Copy, Insert Below, Replace Selection, or Open New. Avoids accidental replacement when invoked from the Command Palette. |
-
-<add image of post-action picker>
 | `cursorPromptEnhancer.systemPrompt` | string | Custom system prompt (OpenAI mode) |
 | `cursorPromptEnhancer.tone` | `concise`, `balanced`, `detailed` | Tone for local enhancer |
 | `cursorPromptEnhancer.openai.apiBase` | URL | API base for OpenAI-compatible services |
